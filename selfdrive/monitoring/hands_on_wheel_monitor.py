@@ -8,7 +8,7 @@ _PRE_ALERT_THRESHOLD = 150  # 15s
 _PROMPT_ALERT_THRESHOLD = 300  # 30s
 _TERMINAL_ALERT_THRESHOLD = 600  # 60s
 
-_MIN_MONITORING_SPEED = 10 * CV.KPH_TO_MS  # No monitoring under 10kph
+_MIN_MONITORING_SPEED = 100 * CV.KPH_TO_MS  # No monitoring under 10kph
 
 
 class HandsOnWheelStatus():
