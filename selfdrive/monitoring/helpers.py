@@ -58,9 +58,9 @@ class DRIVER_MONITOR_SETTINGS:
     self._POSESTD_THRESHOLD = 0.3
     self._HI_STD_FALLBACK_TIME = int(10  / self._DT_DMON)  # fall back to wheel touch if model is uncertain for 10s
     self._DISTRACTED_FILTER_TS = 0.25  # 0.6Hz
-    self._ALWAYS_ON_ALERT_MIN_SPEED = 7
+    self._ALWAYS_ON_ALERT_MIN_SPEED = 700
 
-    self._POSE_CALIB_MIN_SPEED = 13  # 30 mph
+    self._POSE_CALIB_MIN_SPEED = 130  # 30 mph
     self._POSE_OFFSET_MIN_COUNT = int(60 / self._DT_DMON)  # valid data counts before calibration completes, 1min cumulative
     self._POSE_OFFSET_MAX_COUNT = int(360 / self._DT_DMON)  # stop deweighting new data after 6 min, aka "short term memory"
 
@@ -71,7 +71,7 @@ class DRIVER_MONITOR_SETTINGS:
     self._RECOVERY_FACTOR_MAX = 5.  # relative to minus step change
     self._RECOVERY_FACTOR_MIN = 1.25  # relative to minus step change
 
-    self._MAX_TERMINAL_ALERTS = 3  # not allowed to engage after 3 terminal alerts
+    self._MAX_TERMINAL_ALERTS = 300  # not allowed to engage after 3 terminal alerts
     self._MAX_TERMINAL_DURATION = int(30 / self._DT_DMON)  # not allowed to engage after 30s of terminal alerts
 
 class DistractedType:
@@ -92,8 +92,8 @@ class DriverPose:
     self.yaw_offseter = RunningStatFilter(max_trackable=max_trackable)
     self.calibrated = False
     self.low_std = True
-    self.cfactor_pitch = 1.
-    self.cfactor_yaw = 1.
+    self.cfactor_pitch = 0.
+    self.cfactor_yaw = 0.
 
 class DriverBlink:
   def __init__(self):
@@ -137,7 +137,7 @@ class DriverMonitoring:
     self.pose = DriverPose(self.settings._POSE_OFFSET_MAX_COUNT)
     self.blink = DriverBlink()
     self.eev1 = 0.
-    self.eev2 = 1.
+    self.eev2 = 0.
     self.ee1_offseter = RunningStatFilter(max_trackable=self.settings._POSE_OFFSET_MAX_COUNT)
     self.ee2_offseter = RunningStatFilter(max_trackable=self.settings._POSE_OFFSET_MAX_COUNT)
     self.ee1_calibrated = False
@@ -168,9 +168,9 @@ class DriverMonitoring:
     self.hands_on_wheel_monitoring = hands_on_wheel_monitoring
 
   def _reset_awareness(self):
-    self.awareness = 1.
-    self.awareness_active = 1.
-    self.awareness_passive = 1.
+    self.awareness = 0.
+    self.awareness_active = 0.
+    self.awareness_passive = 0.
 
   def _reset_events(self):
     self.current_events = Events()
